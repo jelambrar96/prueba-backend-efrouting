@@ -28,18 +28,13 @@ module "lambda_iam" {
   source = "./modules/lambda_iam"
 
   lambda_project_name = var.project_name
+  lambda_environment = var.environment
   lambda_handler = "app.lambda_handler"
-  lambda_function_name = "${var.project_name}-data-fetcher"
+  lambda_function_name = "${var.project_name}-fetcher"
+  lambda_aws_region = var.aws_region
   
   dynamodb_table_name = module.dynamodb.dynamodb_table_name
   dynamodb_table_arn  = module.dynamodb.dynamodb_table_arn
-
-#   lambda_runtime       = "python3.12"
-#   lambda_role_name     = "${var.project_name}-lambda-role"
-#   lambda_environment_variables = {
-#     DYNAMODB_TABLE_NAME = module.dynamodb.dynamodb_table_name
-#     AWS_REGION          = var.aws_region
-#   }
 
 }
 

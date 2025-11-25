@@ -65,11 +65,13 @@ resource "aws_lambda_function" "spacex_lambda" {
   filename      = data.archive_file.lambda_zip.output_path
   timeout       = 15
 
-#   environment {
-#     variables = {
-#       DDB_TABLE = aws_dynamodb_table.spacex_launches.name
-#     }
-#   }
+  environment {
+    variables = {
+      DYNAMODB_TABLE = var.dynamodb_table_name
+      ENVIRONMENT = var.lambda_environment
+      AWS_REGION = var.lambda_aws_region
+    }
+  }
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_logs,
