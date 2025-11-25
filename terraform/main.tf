@@ -26,20 +26,20 @@ module "dynamodb" {
 
 module "lambda_iam" {
   source = "./modules/lambda_iam"
+
+  lambda_project_name = var.project_name
+  lambda_handler = "app.lambda_handler"
+  lambda_function_name = "${var.project_name}-data-fetcher"
+  
   dynamodb_table_name = module.dynamodb.dynamodb_table_name
   dynamodb_table_arn  = module.dynamodb.dynamodb_table_arn
-}
 
-
-# module "lambda" {
-#   source = "./modules/lambda"
-
-#   lambda_function_name = "${var.project_name}-data-fetcher"
-#   lambda_handler       = "app.lambda_handler"
 #   lambda_runtime       = "python3.12"
 #   lambda_role_name     = "${var.project_name}-lambda-role"
 #   lambda_environment_variables = {
 #     DYNAMODB_TABLE_NAME = module.dynamodb.dynamodb_table_name
-#     AWS_REGION         = var.aws_region
+#     AWS_REGION          = var.aws_region
 #   }
-# }
+
+}
+

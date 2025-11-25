@@ -7,3 +7,18 @@ variable "dynamodb_table_arn" {
   description = "DynamoDB table ARN"
   type        = string
 }
+
+variable "lambda_project_name" {
+  description = "Project name for tagging"
+  type        = string
+}
+
+variable "lambda_function_name" {
+  description = "Lambda function name"
+  type        = string
+}
+
+variable "lambda_handler" {
+  description = "Lambda function handler"
+  type        = string
+}
