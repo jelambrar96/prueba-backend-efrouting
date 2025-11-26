@@ -27,10 +27,11 @@ if command -v docker &> /dev/null; then
     # Bind mount the package dir so files are created on the host
     docker run --rm \
         -u "$HOST_UID:$HOST_GID" \
-        -v "$PACKAGE_DIR":/var/task/package \
+        -v "$PACKAGE_DIR":/var/task/package:rw \
         -v "$SCRIPT_DIR":/var/task:ro \
+        --entrypoint /bin/sh \
         public.ecr.aws/lambda/python:3.12 \
-        bash -lc "pip install --no-cache-dir -r /var/task/requirements.txt -t /var/task/package && cp /var/task/app.py /var/task/package/ 2>/dev/null || true && [ -f /var/task/model.py ] && cp /var/task/model.py /var/task/package/ || true"
+        -lc 'pip install --no-cache-dir -r /var/task/requirements.txt -t /var/task/package && cp /var/task/app.py /var/task/package/ 2>/dev/null || true && [ -f /var/task/model.py ] && cp /var/task/model.py /var/task/package/ || true'
 
 else
     echo "⚠️  Docker not found. Falling back to local pip (must be run as non-root to avoid root-owned files)..."

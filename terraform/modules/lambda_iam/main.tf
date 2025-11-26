@@ -68,6 +68,7 @@ resource "null_resource" "lambda_build" {
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_file = "${path.module}/../../../compute/lambda/lambda.zip"
+  # source_file = "${path.module}/../../../compute/lambda/build/package"
   output_path = "${path.module}/lambda_deployment.zip"
 
   depends_on = [null_resource.lambda_build]
@@ -78,8 +79,8 @@ resource "aws_lambda_function" "spacex_lambda" {
   handler       = var.lambda_handler
   runtime       = "python3.12"
   role          = aws_iam_role.lambda_role.arn
-  filename      = data.archive_file.lambda_zip.output_path
-  source_code_hash = filebase64sha256(data.archive_file.lambda_zip.output_path)
+  filename           = data.archive_file.lambda_zip.output_path
+  source_code_hash   = data.archive_file.lambda_zip.output_base64sha256
   timeout       = 15
 
   environment {
