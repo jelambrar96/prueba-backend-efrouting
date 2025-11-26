@@ -3,6 +3,7 @@ import os
 import json
 
 from datetime import datetime, timedelta, timezone
+from dateutil import parser
 
 import boto3
 import requests
@@ -26,7 +27,7 @@ def launch_data(json_data):
         "static_fire_date": json_data.get("static_fire_date_utc"),
         "launch_window": json_data.get("window"),
 
-        "lauch_status": "upcoming" if json_data.get("upcoming") else ("success" if json_data.get("success") else "failed"),
+        "lauch_status": "upcoming" if json_data.get("upcoming") else ("success" if json_data.get("success", False) else "failed"),
         "launchpad_id": json_data.get("launchpad"),
 
         "crew": len(json_data.get("crew")) > 0,
@@ -48,7 +49,8 @@ def lambda_handler(event, context):
     # --- Convertir la fecha UTC ---
     if utc_date_str:
         try:
-            end_time = datetime.fromisoformat(utc_date_str.replace("Z", "+00:00"))
+            # end_time = datetime.fromisoformat(utc_date_str.replace("Z", "+00:00"))
+            end_time = parser.isoparse(utc_date_str)
         except Exception as e:
             return {
                 "statusCode": 400,

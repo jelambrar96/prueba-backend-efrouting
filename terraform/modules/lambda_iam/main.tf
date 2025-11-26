@@ -67,8 +67,8 @@ resource "null_resource" "lambda_build" {
 # Create Lambda deployment package (already includes dependencies from build.sh)
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_file = "${path.module}/../../../compute/lambda/lambda.zip"
-  # source_file = "${path.module}/../../../compute/lambda/build/package"
+  # source_file = "${path.module}/../../../compute/lambda/lambda.zip"
+  source_dir = "${path.module}/../../../compute/lambda/build/package"
   output_path = "${path.module}/lambda_deployment.zip"
 
   depends_on = [null_resource.lambda_build]
