@@ -27,6 +27,16 @@ resource "aws_dynamodb_table" "spacex_launches" {
     type = "S"
   }
 
+  # # Global Secondary Index to query items by launch_date.
+  # # We use a GSI so it can be added/removed without recreating the base table.
+  # global_secondary_index {
+  #   name            = "launch_date-gsi"
+  #   hash_key        = "launch_date"
+  #   range_key       = "id"
+  #   projection_type = "ALL"
+  #   # No provisioned throughput fields required for PAY_PER_REQUEST billing.
+  # }
+
   # Server-side encryption enabled by default (AWS owned key)
   tags = {
     Environment = var.dynamodb_environment
