@@ -56,6 +56,7 @@ resource "null_resource" "lambda_build" {
   triggers = {
     requirements_hash = filemd5("${path.module}/../../../compute/lambda/requirements.txt")
     app_hash          = filemd5("${path.module}/../../../compute/lambda/app.py")
+    model_hash        = filemd5("${path.module}/../../../compute/lambda/model.py")
   }
 
   provisioner "local-exec" {
@@ -63,12 +64,11 @@ resource "null_resource" "lambda_build" {
   }
 }
 
-# Create a temporary directory to prepare Lambda package with dependencies
+# Create Lambda deployment package (already includes dependencies from build.sh)
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/../../../compute/lambda"
-  output_path = "${path.module}/lambda.zip"
-  excludes    = ["*.pyc", "__pycache__", "*.zip", "build/", ".git/"]
+  source_file = "${path.module}/../../../compute/lambda/lambda.zip"
+  output_path = "${path.module}/lambda_deployment.zip"
 
   depends_on = [null_resource.lambda_build]
 }
@@ -79,7 +79,7 @@ resource "aws_lambda_function" "spacex_lambda" {
   runtime       = "python3.12"
   role          = aws_iam_role.lambda_role.arn
   filename      = data.archive_file.lambda_zip.output_path
-  source_code_hash = data.archive_file.lambda_zip.output_base64sha256
+  source_code_hash = filebase64sha256(data.archive_file.lambda_zip.output_path)
   timeout       = 15
 
   environment {
@@ -91,7 +91,8 @@ resource "aws_lambda_function" "spacex_lambda" {
 
   depends_on = [
     aws_iam_role_policy_attachment.lambda_logs,
-    aws_iam_role_policy_attachment.lambda_attach_dynamodb
+    aws_iam_role_policy_attachment.lambda_attach_dynamodb,
+    data.archive_file.lambda_zip
   ]
 }
 
