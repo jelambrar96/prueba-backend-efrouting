@@ -1,0 +1,6 @@
+streamlit
+boto3
+pandas
+plotly
+python-dateutil
+botocore
