@@ -1,0 +1,35 @@
+site_name: jelambrar96X
+site_description: Documentación del visualizador de los lanzamientos de SpaceX
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - toc.integrate
+    - content.code.annotate
+    - content.code.copy
+
+
+nav:
+  - Introducción: d00_introduccion.md
+  - Datos: d01_datos.md
+  - Solución: d02_solucion.md
+  - Reproducibilidad: d03_reproducibilidad.md
+  - Pruebas: d04_pruebas.md
+  - CI/CD: d05_cicd.md
+  - Referencias: d06_referencias.md
+  - Créditos: d07_creditos.md
+
+
+plugins:
+  - search
+  # - minify  # desactiva en desarrollo
