@@ -138,6 +138,8 @@ global_secondary_index {
   - ✅ Ideal para cargas impredecibles
   - ✅ Estimado: $1.25 USD por millón de lecturas, $6.25 por millón de escrituras
 
+![alt text](media/img03_dynamo01.png)
+
 ### Ejemplo de Ítem Almacenado
 
 ```json
@@ -160,6 +162,8 @@ global_secondary_index {
 ---
 
 ## AWS Lambda: Extracción y Transformación
+
+![alt text](media/img00_lambda01.png)
 
 ### Rol IAM y Permisos
 
@@ -301,6 +305,8 @@ def lambda_handler(event, context):
 ---
 
 ## Triggers: Cómo se Dispara la Función
+
+![alt text](media/img00_lambda02.png)
 
 ### Trigger 1: EventBridge (Scheduled - Automático)
 
@@ -622,6 +628,10 @@ El dashboard de Streamlit se despliega como un contenedor Docker en **Amazon ECS
 
 ### Amazon ECR: Registro de Contenedores
 
+![alt text](media/img04_ecr.png)
+
+![alt text](media/img05_ecr.png)
+
 #### Configuración en Terraform
 
 ```hcl
@@ -696,6 +706,13 @@ CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0"]
 ---
 
 ### Amazon ECS Fargate: Orquestación de Contenedores
+
+![alt text](media/img06_ecs.png)
+
+![alt text](media/img07_ecs.png)
+
+![alt text](media/img08_ecs.png)
+
 
 #### 1. ECS Cluster
 
@@ -911,6 +928,8 @@ resource "aws_route_table_association" "public" {
 
 #### 2. Security Group para Fargate
 
+![alt text](media/img09_sg.png)
+
 ```hcl
 resource "aws_security_group" "fargate" {
   name        = "spacex-fargate-sg"
@@ -1100,6 +1119,16 @@ resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
   }
 }
 ```
+
+### Imagenes de la aplicación
+
+![alt text](media/img10_st.png)
+
+![alt text](media/img11_st.png)
+
+![alt text](media/img12_st.png)
+
+![alt text](media/img13_st.png)
 
 ____
 
