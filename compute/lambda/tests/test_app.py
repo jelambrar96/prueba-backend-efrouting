@@ -17,9 +17,9 @@ class TestLaunchDataFunction(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         self.sample_json = {
-            "launched_id": "5eb87d04ffd86e000604b353",
+            "id": "5eb87d04ffd86e000604b353",
             "flight_number": 42,
-            "mission_name": "BulgariaSat-1",
+            "name": "BulgariaSat-1",
             "rocket": "Falcon 9",
             "date_utc": "2017-06-23T19:10:00.000Z",
             "date_precision": "hour",
@@ -47,7 +47,7 @@ class TestLaunchDataFunction(unittest.TestCase):
         self.assertIn("mission_name", result)
         self.assertIn("rocket_name", result)
         self.assertIn("launch_date", result)
-        self.assertIn("lauch_status", result)
+        self.assertIn("launch_status", result)
         self.assertIn("crew", result)
         self.assertIn("capsules", result)
 
@@ -58,7 +58,7 @@ class TestLaunchDataFunction(unittest.TestCase):
         self.assertEqual(result["flight_number"], 42)
         self.assertEqual(result["mission_name"], "BulgariaSat-1")
         self.assertEqual(result["rocket_name"], "Falcon 9")
-        self.assertEqual(result["lauch_status"], "success")
+        self.assertEqual(result["launch_status"], "success")
         self.assertEqual(result["crew"], False)
         self.assertEqual(result["capsules"], False)
 
@@ -67,14 +67,14 @@ class TestLaunchDataFunction(unittest.TestCase):
         self.sample_json["upcoming"] = True
         self.sample_json["success"] = False
         result = launch_data(self.sample_json)
-        self.assertEqual(result["lauch_status"], "upcoming")
+        self.assertEqual(result["launch_status"], "upcoming")
 
     def test_launch_data_status_failed(self):
         """Test launch status for failed launch"""
         self.sample_json["upcoming"] = False
         self.sample_json["success"] = False
         result = launch_data(self.sample_json)
-        self.assertEqual(result["lauch_status"], "failed")
+        self.assertEqual(result["launch_status"], "failed")
 
 
 class TestLambdaHandler(unittest.TestCase):
