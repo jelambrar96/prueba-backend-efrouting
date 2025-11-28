@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'compute/lambda/**'
+      - '.github/workflows/tests.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'compute/lambda/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r compute/lambda/requirements.txt
+        pip install python-dateutil
+
+    - name: Run tests with pytest
+      working-directory: compute/lambda/tests
+      run: |
+        pip install pytest pytest-cov
+        pytest test_app.py -v --cov=.. --cov-report=xml --cov-report=term
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v5
+      with:
+        files: ./compute/lambda/tests/coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+      if: always()
