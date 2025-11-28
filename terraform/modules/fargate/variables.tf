@@ -73,5 +73,5 @@ variable "dynamodb_table_name" {
 variable "container_environment_variables" {
   description = "Environment variables to pass to the container"
   type        = map(string)
-  default = {}
+  default     = {}
 }
