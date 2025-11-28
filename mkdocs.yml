@@ -22,11 +22,12 @@ theme:
 nav:
   - Introducción: d00_introduccion.md
   - Datos: d01_datos.md
-  - Solución: solcion_propuesta.md
-  - Tecnologías: tecnologias_utilizadas.md
-  - Instalación: instalacion.md
-  - Referencias: referencias.md
-  - Créditos: creditos.md
+  - Solución: d02_solucion.md
+  - Reproducibilidad: d03_reproducibilidad.md
+  - Pruebas: d04_pruebas.md
+  - CI/CD: d05_cicd.md
+  - Referencias: d06_referencias.md
+  - Créditos: d07_creditos.md
 
 
 plugins:
