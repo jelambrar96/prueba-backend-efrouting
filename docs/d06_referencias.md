@@ -1,10 +1,15 @@
 # Referencias
-
+- **AWS Credentials Action**: https://github.com/aws-actions/configure-aws-credentials
 - **AWS Documentation**: https://docs.aws.amazon.com/
-- **Terraform AWS Provider**: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+- **Docker Build Action**: https://github.com/docker/build-push-action
+- **GitHub Actions Docs**: https://docs.github.com/en/actions
+- **GitHub CLI**: https://cli.github.com/
+- **GitHub Repo**: https://github.com/jelambrar96/prueba-backend-efrouting
+- **MkDocs**: https://www.mkdocs.org/
 - **SpaceX API**: https://docs.spacexdata.com/
 - **Streamlit Docs**: https://docs.streamlit.io/
-- **GitHub Repo**: https://github.com/jelambrar96/prueba-backend-efrouting
+- **Terraform AWS Provider**: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+- **Terraform GitHub Actions**: https://github.com/hashicorp/setup-terraform
 
 ____
 
