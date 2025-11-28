@@ -15,11 +15,11 @@ resource "aws_apigatewayv2_api" "lambda_api" {
 
 # Integration between API Gateway and Lambda
 resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id           = aws_apigatewayv2_api.lambda_api.id
-  integration_type = "AWS_PROXY"
-  integration_method = "POST"
+  api_id                 = aws_apigatewayv2_api.lambda_api.id
+  integration_type       = "AWS_PROXY"
+  integration_method     = "POST"
   payload_format_version = "2.0"
-  integration_uri = "arn:aws:apigateway:${var.lambda_aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.spacex_lambda.arn}/invocations"
+  integration_uri        = "arn:aws:apigateway:${var.lambda_aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.spacex_lambda.arn}/invocations"
 }
 
 # Route for manual invocation: POST /invoke

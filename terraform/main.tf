@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
   profile = "efrouting"
 }
 
@@ -35,9 +35,9 @@ module "networking" {
 module "dynamodb" {
   source = "./modules/dynamodb"
 
-  dynamodb_table_name  = "${var.project_name}-launches"
-  dynamodb_environment = var.environment
-  dynamodb_aws_region  = var.aws_region
+  dynamodb_table_name   = "${var.project_name}-launches"
+  dynamodb_environment  = var.environment
+  dynamodb_aws_region   = var.aws_region
   dynamodb_project_name = var.project_name
 }
 
@@ -45,12 +45,12 @@ module "dynamodb" {
 module "lambda_iam" {
   source = "./modules/lambda_iam"
 
-  lambda_project_name = var.project_name
-  lambda_environment = var.environment
-  lambda_handler = "app.lambda_handler"
+  lambda_project_name  = var.project_name
+  lambda_environment   = var.environment
+  lambda_handler       = "app.lambda_handler"
   lambda_function_name = "${var.project_name}-fetcher"
-  lambda_aws_region = var.aws_region
-  
+  lambda_aws_region    = var.aws_region
+
   dynamodb_table_name = module.dynamodb.dynamodb_table_name
   dynamodb_table_arn  = module.dynamodb.dynamodb_table_arn
 
@@ -61,33 +61,33 @@ module "lambda_iam" {
 module "docker_ecr_push" {
   source = "./modules/docker_ecr_push"
 
-  build_script_path    = "${path.module}/../compute/streamlit/build_and_push.sh"
-  aws_region           = var.aws_region
-  ecr_repository_url   = module.fargate.ecr_repository_url
-  image_tag            = "latest"
-  force_rebuild        = "no"
+  build_script_path  = "${path.module}/../compute/streamlit/build_and_push.sh"
+  aws_region         = var.aws_region
+  ecr_repository_url = module.fargate.ecr_repository_url
+  image_tag          = "latest"
+  force_rebuild      = "no"
 
   depends_on = [module.fargate]
 }
 
 module "fargate" {
-  source         = "./modules/fargate"
-  project_name   = var.project_name
-  ecr_repo_name  = "${var.project_name}-streamlit"
-  image_tag      = "latest"
-  container_name = "streamlit"
-  container_port = 8501
-  cpu            = "512"
-  memory         = "1024"
-  desired_count  = 1
-  aws_region     = var.aws_region
+  source              = "./modules/fargate"
+  project_name        = var.project_name
+  ecr_repo_name       = "${var.project_name}-streamlit"
+  image_tag           = "latest"
+  container_name      = "streamlit"
+  container_port      = 8501
+  cpu                 = "512"
+  memory              = "1024"
+  desired_count       = 1
+  aws_region          = var.aws_region
   dynamodb_table_name = module.dynamodb.dynamodb_table_name
 
   # Networking from the networking module
-  subnets        = module.networking.public_subnet_ids
-  security_groups = [module.networking.fargate_security_group_id]
+  subnets          = module.networking.public_subnet_ids
+  security_groups  = [module.networking.fargate_security_group_id]
   assign_public_ip = true
-  
+
   # Optional: Additional environment variables
   container_environment_variables = {
     # Add any additional env vars here if needed

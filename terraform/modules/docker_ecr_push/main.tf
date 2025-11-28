@@ -11,7 +11,7 @@ resource "null_resource" "build_and_push" {
   }
 
   provisioner "local-exec" {
-    command = "bash ${var.build_script_path} ${var.aws_region} ${var.ecr_repository_url} ${var.image_tag}"
+    command    = "bash ${var.build_script_path} ${var.aws_region} ${var.ecr_repository_url} ${var.image_tag}"
     on_failure = fail
   }
 }

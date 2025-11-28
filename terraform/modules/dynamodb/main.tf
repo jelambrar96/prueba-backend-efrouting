@@ -1,10 +1,10 @@
 resource "aws_dynamodb_table" "spacex_launches" {
-  name           = var.dynamodb_table_name
-  billing_mode   = "PAY_PER_REQUEST"   # On-demand
+  name         = var.dynamodb_table_name
+  billing_mode = "PAY_PER_REQUEST" # On-demand
   # hash_key       = "launchpad_id"
-  hash_key       = "id"
-  range_key      = "launch_date"
-  
+  hash_key  = "id"
+  range_key = "launch_date"
+
   point_in_time_recovery {
     enabled = true
   }
